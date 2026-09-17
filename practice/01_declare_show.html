@@ -1,15 +1,75 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-hant-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>宣告式渲染(顯示資料)範例</title>
-</head>
-<body>
-    <ul>
-        <li>櫻花粉</li>
-        <li>天空藍</li>
-        <li>活力橘</li>
-    </ul>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>宣告式渲染(顯示資料)練習</title>
+    <style>
+      .box {
+        width: 20px;
+        height: 20px;
+        border-radius: 8px;
+        display: inline-block;
+      }
+
+      .danger {
+        color: red;
+        font-weight: 700;
+        font-size: 60px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <ul class="list">
+        <li v-for="item in colors">
+          {{ item.name }}
+        <span class="box" :style="{backgroundColor: item.color}"></span>
+      </li>
+      </ul>
+
+      <span :class="{danger: isActive}">
+        {{ message }}
+      </span>
+
+      <hr>
+
+      <br>
+      <input v-model = number>
+      <p v-bind:style="{'font-size': fontSize}">{{ number }}</p>
+      <!-- v-bind 可省略 -->
+    </div>
+    
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      const { createApp, ref, reactive } = Vue;
+
+      createApp({
+        setup() {
+          const number = ref(777);
+          const message = ref("hello");
+          const colors = reactive([
+              { name: "珊瑚橘", color: "#ff8a65" },
+              { name: "蜜桃粉", color: "#ffd6e0" },
+              { name: "天空藍", color: "#cfe8ff" },
+              { name: "抹茶綠", color: "#d8f5d0" },
+          ]);
+          const fontSize = ref("48px");
+          const isActive = ref(true);
+
+          console.log("數字:", number.value);
+          console.log("顏色:", colors);
+
+          return {
+            colors,
+            number,
+            message,
+            fontSize,
+            isActive
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
 </html>

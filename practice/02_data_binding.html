@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Binding 練習</title>
+    <link rel="stylesheet" href="./css/basic.css">
+    <style>
+
+    </style>
+</head>
+<body>
+    <div id="app" class="card">
+        <h2>設計提案</h2>
+        <div>
+            <input type="checkbox" name="" id="" v-model="isApproved">
+            <label for="" :class="{pass: isApproved}">是否通過</label>
+        </div>
+
+        <span v-if="isApproved" class="status-approved">已通過</span>
+        <span v-else class="status-pending">待修改</span>
+
+        <ul class="tag-list">
+            <li v-for="tool in tools" :key="tool" class="tag">{{tool}}</li>
+        </ul>
+
+        <input type="text" v-model="note" placeholder="輸入審核備註...">
+        <p>備註預覽: {{note}}</p>
+
+        <p :class="{important: isImportant}">
+            {{title}} ({{isImportant ? '重要提案' : '一般提案'}})
+        </p>
+        <button @click="isImportant = !isImportant">
+            {{ isImportant ? '一般提案' : '重要提案' }}
+        </button>
+
+        <button @click="showDetail = !showDetail">
+            {{ showDetail ? '隱藏' : '顯示' }}詳細說明
+        </button>
+        <p class="muted" v-show="showDetail">
+            這份提案包含首頁改版與元件庫更新，預計兩週內完成審核。
+        </p>
+
+        <img class="small-img" :src="imgPath" alt="">
+        <button @click="imgPath = './img/newyork.jpg' ">New York</button>
+        <button @click="imgPath = './img/osaka.jpg' ">Osaka</button>
+
+
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const { createApp, ref, reactive } = Vue;
+
+        createApp({
+            setup(){
+                const title = ref("首頁改版");
+                const isApproved = ref(true);
+                const tools = reactive([
+                    "Figma", "Illustrator", "Photoshop"
+                    ]);
+                const note = ref("");
+                const isImportant = ref(false);
+                const showDetail = ref(false);
+                const imgPath = ref("./img/newyork.jpg");
+
+                return{
+                    title,
+                    isApproved,
+                    tools,
+                    note,
+                    isImportant,
+                    showDetail,
+                    imgPath
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
