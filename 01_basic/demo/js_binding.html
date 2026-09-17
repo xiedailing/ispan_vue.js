@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>使用JavaScript實現雙向綁定</title>
+  <link rel="stylesheet" href="../basic.css">
+</head>
+<body>
+  <div class="card">
+    <h2>手刻雙向綁定</h2>
+    <p class="muted">不用 Vue，純 JS 也能做到「輸入同步顯示」，但要自己寫兩段程式碼</p>
+    <input type="text" id="input" placeholder="輸入文字試試看...">
+    <p>你輸入的是：<strong id="output"></strong></p>
+  </div>
+
+  <script>
+    const input = document.querySelector('#input')
+    const output = document.querySelector('#output')
+
+    // 定義一個名為"model"的對象，用於儲存input元素的值
+    const model = {
+      value: ''
+    }
+
+    // 監聽input元素的input事件，當輸入值發生改變時，同步更新model的值
+    input.addEventListener('input', (event) => {
+      model.value = event.target.value
+    })
+
+    // 監聽model的value屬性的變化，當model的值發生改變時，同步更新output元素的值
+    Object.defineProperty(model, 'value', {
+      get() {
+        return this._value
+      },
+      set(newValue) {
+        this._value = newValue
+        output.textContent = newValue
+      }
+    })
+
+    // 初始化output元素的值
+    output.textContent = model.value
+  </script>
+</body>
+</html>

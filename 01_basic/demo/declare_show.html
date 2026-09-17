@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>宣告式渲染範例</title>
+  <link rel="stylesheet" href="../basic.css">
+</head>
+<body>
+  <div id="app" class="card">
+    <h2>色票清單（宣告式渲染）</h2>
+    <p class="muted">只要告訴 Vue「資料長怎樣」，畫面就自動跟著變化</p>
+    <ul class="swatch-list">
+      <li v-for="item in colors" :key="item.name" class="swatch">
+        <span class="swatch-color" :style="{ background: item.color }"></span>
+        {{ item.name }}
+      </li>
+    </ul>
+  </div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    Vue.createApp({
+      data() {
+        return {
+          colors: [
+            { name: '珊瑚橘', color: '#ff8a65' },
+            { name: '蜜桃粉', color: '#ffd6e0' },
+            { name: '天空藍', color: '#cfe8ff' },
+            { name: '抹茶綠', color: '#d8f5d0' }
+          ]
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+</html>

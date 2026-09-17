@@ -1,0 +1,79 @@
+/* ===== 便利貼佈告欄風格 - 全域樣式 ===== */
+
+:root {
+  /* 便利貼配色（依序輪替使用） */
+  --sticky-yellow: #fff3b0;
+  --sticky-pink: #ffd6e0;
+  --sticky-blue: #cfe8ff;
+  --sticky-green: #d8f5d0;
+  --sticky-purple: #e6d9ff;
+
+  /* 版面配色 */
+  --board-bg: #f2ede3;
+  --panel-bg: #ffffff;
+  --ink: #3a3630;
+  --muted: #8c8577;
+  --accent: #ff8a65;
+  --accent-dark: #e8663d;
+  --danger: #e05a5a;
+
+  --radius: 14px;
+  --shadow: 0 4px 10px rgba(58, 54, 48, 0.12);
+  --shadow-hover: 0 12px 22px rgba(58, 54, 48, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  font-family: system-ui, -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif;
+  color: var(--ink);
+  background: var(--board-bg);
+}
+
+#app {
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+button:hover {
+  transform: translateY(-1px);
+}
+
+input, textarea {
+  font-family: inherit;
+  border: 1px solid #e2dccd;
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fffdf8;
+  color: var(--ink);
+}
+input:focus, textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* 頁面切換淡入淡出 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}

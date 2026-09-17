@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>網頁直接使用Vue3 範例</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="../basic.css">
+</head>
+<body>
+
+    <div id="app" class="card">
+        <h1>{{ message }}</h1>
+        <button @click="changeMessage">切換訊息</button>
+
+        <h2>計數器：{{ count }}</h2>
+        <button @click="increment">增加</button>
+        <button class="btn-danger" @click="decrement">減少</button>
+
+        <h2>待辦事項</h2>
+        <input v-model="newTask" placeholder="輸入待辦事項">
+        <button @click="addTask">新增</button>
+
+        <ul class="todo-list">
+            <li v-for="(task, index) in tasks" :key="index">
+                {{ task }}
+                <button class="btn-danger" @click="removeTask(index)">移除</button>
+            </li>
+        </ul>
+
+        <p v-if="tasks.length === 0" class="muted">目前沒有待辦事項</p>
+    </div>
+
+    <script>
+        const { createApp, ref } = Vue;
+
+        createApp({
+            setup() {
+                const message = ref("Hello Vue 3!");
+                const count = ref(0);
+                const newTask = ref("");
+                const tasks = ref([]);
+
+                const changeMessage = () => {
+                    message.value = message.value === "Hello Vue 3!" ? "Vue 3 是最棒的！" : "Hello Vue 3!";
+                };
+
+                const increment = () => count.value++;
+                const decrement = () => count.value--;
+
+                const addTask = () => {
+                    if (newTask.value.trim()) {
+                        tasks.value.push(newTask.value.trim());
+                        newTask.value = "";
+                    }
+                };
+
+                const removeTask = (index) => {
+                    tasks.value.splice(index, 1);
+                };
+
+                return {
+                    message, changeMessage,
+                    count, increment, decrement,
+                    newTask, tasks, addTask, removeTask
+                };
+            }
+        }).mount("#app");
+    </script>
+
+</body>
+</html>

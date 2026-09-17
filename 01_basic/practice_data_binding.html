@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>練習指令－設計提案卡片</title>
+    <link rel="stylesheet" href="basic.css">
+</head>
+<body>
+    <div id="app" class="card">
+        <h2>設計提案：這裡要顯示提案標題</h2>
+
+        <!-- TODO 1：用 v-if / v-else，isApproved 為 true 顯示「已通過」，否則顯示「待修改」 -->
+        <span class="status-approved">已通過</span>
+
+        <!-- TODO 2：用 v-for 迴圈渲染 tools 陣列，每個項目顯示成一個標籤 -->
+        <ul class="tag-list">
+            <li class="tag">工具名稱</li>
+        </ul>
+
+        <!-- TODO 3：用 v-model 雙向綁定 note，輸入文字即時顯示在下方 -->
+        <input type="text" placeholder="輸入審核備註...">
+        <p>備註預覽：</p>
+
+        <!-- TODO 4：用 :class 綁定，isImportant 為 true 時加上 important 樣式 -->
+        <p>提案標題</p>
+        <button>標記重要</button>
+
+        <!-- TODO 5：用 v-show 根據 showDetail 顯示/隱藏詳細說明 -->
+        <button>顯示詳細說明</button>
+        <p class="muted">這份提案包含首頁改版與元件庫更新，預計兩週內完成審核。</p>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        // 請在這裡完成 Vue.createApp 的 data 與掛載
+        // 需要的資料：title, isApproved, tools, note, isImportant, showDetail
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>練習指令－設計提案卡片</title>
+    <link rel="stylesheet" href="../basic.css">
+</head>
+<body>
+    <div id="app" class="card">
+        <h2>設計提案：{{ title }}</h2>
+
+        <!-- 如果提案已通過，顯示核准狀態；未通過顯示待修改狀態 -->
+        <span v-if="isApproved" class="status-approved">已通過</span>
+        <span v-else class="status-pending">待修改</span>
+
+        <!-- 迴圈渲染此提案使用的設計工具標籤 -->
+        <ul class="tag-list">
+            <li v-for="tool in tools" :key="tool" class="tag">{{ tool }}</li>
+        </ul>
+
+        <!-- 雙向綁定：輸入的備註文字即時顯示在下方 -->
+        <input type="text" v-model="note" placeholder="輸入審核備註...">
+        <p>備註預覽：{{ note }}</p>
+
+        <!-- 綁定樣式：點擊按鈕切換標題是否標記為重要 -->
+        <p :class="{ important: isImportant }">{{ title }}（{{ isImportant ? '重要提案' : '一般提案' }}）</p>
+        <button @click="isImportant = !isImportant">標記重要</button>
+
+        <!-- 根據資料顯示/隱藏詳細說明 -->
+        <button @click="showDetail = !showDetail">{{ showDetail ? '隱藏' : '顯示' }}詳細說明</button>
+        <p v-show="showDetail" class="muted">這份提案包含首頁改版與元件庫更新，預計兩週內完成審核。</p>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        Vue.createApp({
+            data() {
+                return {
+                    title: '首頁改版',
+                    isApproved: true,
+                    tools: ['Figma', 'Illustrator', 'Photoshop'],
+                    note: '',
+                    isImportant: false,
+                    showDetail: false
+                }
+            },
+            mounted() {
+                console.log(this.note)
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>

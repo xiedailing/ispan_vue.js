@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue 選項總覽範例</title>
+  <link rel="stylesheet" href="../basic.css">
+</head>
+<body>
+  <div id="app" class="card">
+    <h2>字串反轉小工具</h2>
+    <input type="text" v-model="message" placeholder="輸入文字...">
+    <p>反轉結果（computed）：<strong>{{ reversedMessage }}</strong></p>
+
+    <button @click="showMessage">顯示目前訊息</button>
+    <p v-if="statusMessage" class="status-badge approved">{{ statusMessage }}</p>
+
+    <h3>修改紀錄（watch）</h3>
+    <ul class="tag-list">
+      <li v-for="(log, index) in logs" :key="index" class="tag">{{ log }}</li>
+    </ul>
+
+    <hello-component></hello-component>
+  </div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          message: 'Hello Vue!',
+          statusMessage: '',
+          logs: []
+        }
+      },
+      methods: {
+        showMessage() {
+          this.statusMessage = `目前訊息：${this.message}`
+        }
+      },
+      computed: {
+        reversedMessage() {
+          return this.message.split('').reverse().join('')
+        }
+      },
+      watch: {
+        message(newValue, oldValue) {
+          this.logs.unshift(`「${oldValue}」→「${newValue}」`)
+        }
+      }
+    })
+
+    app.component('hello-component', {
+      template: `<div class="mini-card">{{ message }}</div>`,
+      data() {
+        return { message: '這是一個子組件' }
+      }
+    })
+
+    app.mount('#app')
+  </script>
+</body>
+</html>
