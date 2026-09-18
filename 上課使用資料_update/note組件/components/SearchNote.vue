@@ -1,12 +1,11 @@
 <script setup>
-import { useNoteStore } from '../stores/NoteStore'
-
-const noteStore = useNoteStore()
+// 搜尋結果頁
+// 重點：直接讀 store 裡存好的搜尋結果，不用自己再算一次
 </script>
 
 <template>
   <div class="search-result">
-    <h2>🔍 搜尋結果</h2>
+    <h2><i class="fa-solid fa-magnifying-glass"></i> 搜尋結果</h2>
     <p v-if="noteStore.searchResults.length === 0" class="empty">查無相關資料</p>
     <div v-else class="result-list">
       <router-link

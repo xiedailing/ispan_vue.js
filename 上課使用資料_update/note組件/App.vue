@@ -1,4 +1,6 @@
 <script setup>
+// App.vue 本身沒什麼邏輯，主要是把固定不變的 ToolBar、NoteList 排進版面，
+// 中間 <router-view> 的位置才會依網址切換不同頁面元件
 import ToolBar from './components/ToolBar.vue'
 import NoteList from './components/NoteList.vue'
 </script>
@@ -14,7 +16,8 @@ import NoteList from './components/NoteList.vue'
     <main class="content">
       <router-view v-slot="{ Component }">
         <transition name="fade" mode="out-in">
-          <component :is="Component" />
+          <!-- 用網址當 key：從 A 筆記切到 B 筆記時強制重建元件，避免畫面沒更新 -->
+          <component :is="Component" :key="$route.fullPath" />
         </transition>
       </router-view>
     </main>

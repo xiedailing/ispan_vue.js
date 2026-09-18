@@ -1,19 +1,7 @@
 <script setup>
-import { useNoteStore } from '../stores/NoteStore'
-
-const noteStore = useNoteStore()
-const { markedPinned } = noteStore
-
-// 便利貼配色與旋轉角度，依卡片順序輪流套用
-const colors = ['var(--sticky-yellow)', 'var(--sticky-pink)', 'var(--sticky-blue)', 'var(--sticky-green)', 'var(--sticky-purple)']
-const rotations = [-3, 2, -2, 3, -1.5]
-
-function getColor(index) {
-  return colors[index % colors.length]
-}
-function getRotation(index) {
-  return rotations[index % rotations.length]
-}
+// 便利貼佈告欄：把每筆筆記畫成一張便利貼
+// 重點1：顏色、旋轉角度要輪流套用（用 index 對顏色陣列取餘數）
+// 重點2：算出這筆筆記待辦項目「完成幾個/共幾個」
 </script>
 
 <template>
@@ -24,10 +12,13 @@ function getRotation(index) {
       class="sticky"
       :style="{ background: getColor(index), transform: `rotate(${getRotation(index)}deg)` }"
     >
-      <button class="pin" :class="{ active: note.pinned }" title="置頂/取消置頂" @click="markedPinned(note.id)">📌</button>
+      <button class="pin" :class="{ active: note.pinned }" title="置頂/取消置頂" @click="markedPinned(note.id)"><i class="fa-solid fa-thumbtack"></i></button>
       <router-link :to="{ name: 'edit', params: { id: note.id } }" class="sticky-body">
         <h5>{{ note.title }}</h5>
         <p>{{ note.content }}</p>
+        <span v-if="note.items.length" class="checklist-badge">
+          <i class="fa-solid fa-list-check"></i> {{ doneCount(note) }}/{{ note.items.length }}
+        </span>
       </router-link>
     </div>
 
@@ -77,6 +68,15 @@ function getRotation(index) {
 }
 .pin.active {
   filter: none;
+}
+.checklist-badge {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.6);
+  padding: 2px 8px;
+  border-radius: 999px;
 }
 .empty {
   color: var(--muted);

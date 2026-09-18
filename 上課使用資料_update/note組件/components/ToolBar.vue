@@ -1,27 +1,16 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useNoteStore } from '../stores/NoteStore'
-
-const router = useRouter()
-const noteStore = useNoteStore()
-const keyword = ref('')
-
-// 執行搜尋：把關鍵字交給 store 篩選，再切換到搜尋結果頁
-function goSearch() {
-  noteStore.searchNotes(keyword.value)
-  router.push({ name: 'search' })
-}
+// 頂部工具列：品牌名稱 + 搜尋表單
+// 重點：送出表單時，要把關鍵字交給 store 搜尋，再跳轉到搜尋結果頁
 </script>
 
 <template>
   <nav class="toolbar">
     <router-link :to="{ name: 'grid' }" class="brand">
-      <span class="logo-emoji">🗒️</span> Quick Note
+      <i class="fa-solid fa-note-sticky logo-icon"></i> Quick Note
     </router-link>
     <form class="search-form" @submit.prevent="goSearch">
       <input v-model="keyword" type="search" placeholder="搜尋筆記..." aria-label="搜尋筆記">
-      <button type="submit" class="search-btn">🔍</button>
+      <button type="submit" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
     </form>
   </nav>
 </template>
@@ -44,8 +33,9 @@ function goSearch() {
   align-items: center;
   gap: 8px;
 }
-.logo-emoji {
-  font-size: 24px;
+.logo-icon {
+  font-size: 20px;
+  color: var(--accent);
 }
 .search-form {
   display: flex;
