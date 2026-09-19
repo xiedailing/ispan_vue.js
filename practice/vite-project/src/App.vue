@@ -2,9 +2,9 @@
 import { RouterView, RouterLink } from 'vue-router';
 
 import { reactive } from 'vue';
-const isActive = reactive([true, false, false, false, false]);
+const isActive = reactive([true, false, false, false, false, false]);
 const updateActive = (index) => {
-  for (let i = 0; i < 5; i++){
+  for (let i = 0; i < 6; i++){
     isActive[i] = false;
   }
   isActive[index] = true;
@@ -28,6 +28,9 @@ const updateActive = (index) => {
       </li>
       <li class="nav-item">
         <router-link class="nav-link" :class="{'active': isActive[4]}" to="/Watch" @click="updateActive(4)">Watch</router-link>
+      </li>
+      <li class="nav-item">
+        <router-link class="nav-link" :class="{'active': isActive[5]}" to="/Gallery" @click="updateActive(4)">Gallery</router-link>
       </li>
     </ul>
   </div>
