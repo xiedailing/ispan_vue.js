@@ -30,7 +30,7 @@ const updateActive = (index) => {
         <router-link class="nav-link" :class="{'active': isActive[4]}" to="/Watch" @click="updateActive(4)">Watch</router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" :class="{'active': isActive[5]}" to="/Gallery" @click="updateActive(4)">Gallery</router-link>
+        <router-link class="nav-link" :class="{'active': isActive[5]}" to="/Gallery" @click="updateActive(5)">Gallery</router-link>
       </li>
     </ul>
   </div>
