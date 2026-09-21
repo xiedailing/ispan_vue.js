@@ -11,7 +11,6 @@ export const useTodoStore = defineStore ( "todos", {
     }),
     getters: {
       completedTodos(state) {
-        console.log(state)
         return state.todos.filter(todo => todo.isFinished);
       },
     },

@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HelloWorld from '../src/components/HelloWorld.vue';
 import NoteGrid from '../src/components/NoteGrid.vue';
 import AddNote from '../src/components/AddNote.vue';
 

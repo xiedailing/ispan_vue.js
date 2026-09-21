@@ -1,7 +1,6 @@
 <script setup>
 import { RouterView, RouterLink } from 'vue-router';
 
-import HelloWorld from './components/HelloWorld.vue'
 import NoteList from './components/NoteList.vue';
 import NoteGrid from './components/NoteGrid.vue';
 
@@ -14,7 +13,7 @@ import NoteGrid from './components/NoteGrid.vue';
   <header>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
-        <router-link class="navbar-brand" to="/"><img src="../public/note_logo.png" alt="" class="logo">My Note</router-link>
+        <router-link class="navbar-brand" to="/"><img src="/note_logo.png" alt="" class="logo">My Note</router-link>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
