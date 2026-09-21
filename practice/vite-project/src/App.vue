@@ -1,14 +1,21 @@
 <script setup>
 import { RouterView, RouterLink } from 'vue-router';
+import ShoppingCart from './components/ShoppingCart.vue';
 
-import { reactive } from 'vue';
-const isActive = reactive([true, false, false, false, false, false]);
+import { reactive, ref } from 'vue';
+const isActive = reactive([true, false, false, false, false, false, false]);
 const updateActive = (index) => {
   for (let i = 0; i < 6; i++){
     isActive[i] = false;
   }
   isActive[index] = true;
-}
+};
+
+const totalPrice = ref(0);
+const updateTotal = (price) => {
+  totalPrice.value += price
+};
+
 </script>
 
 <template>
@@ -32,10 +39,20 @@ const updateActive = (index) => {
       <li class="nav-item">
         <router-link class="nav-link" :class="{'active': isActive[5]}" to="/Gallery" @click="updateActive(5)">Gallery</router-link>
       </li>
+      <li class="nav-item">
+        <router-link class="nav-link" :class="{'active': isActive[6]}" to="/ShoppingCart" @click="updateActive(6)">Shopping Cart</router-link>
+      </li>
     </ul>
   </div>
 
   <div class="container">
+    <!-- 購物車 -->
+    <h2>組件傳值練習-購物車</h2>
+    <ShoppingCart fruitName="蘋果" :price="30" @addToCart="updateTotal" />
+    <ShoppingCart fruitName="香蕉" :price="20" @addToCart="updateTotal" />
+    <ShoppingCart fruitName="鳳梨" :price="50" @addToCart="updateTotal" />
+    <h2>總金額: {{ totalPrice }} 元</h2>
+    <hr>
     <router-view></router-view>
   </div>
 </template>
