@@ -7,7 +7,10 @@
             {{ note.item }}
         <div class="btn-group">
             <i class="fa-solid fa-thumbtack me-2 pinned" @click="todoStore.pinnedNote(note.id)"></i>
-            <i class="fa-solid fa-trash-can" ></i>
+            <i 
+            class="fa-solid fa-trash-can"
+            @click="todoStore.deleteNote(note.id)"
+            ></i>
         </div>
         </li>
     </ul>
@@ -18,7 +21,10 @@
             {{ note.item }}
         <div class="btn-group">
             <i class="fa-solid fa-thumbtack me-2" @click="todoStore.pinnedNote(note.id)"></i>
-            <i class="fa-solid fa-trash-can"></i>
+            <i 
+            class="fa-solid fa-trash-can"
+            @click="todoStore.deleteNote(note.id)"
+            ></i>
         </div>
         </li>
     </ul>

@@ -55,6 +55,7 @@ export const useTodoStore = defineStore('todo', {
 
     unFinishedTasks: (state) => state.tasks.filter(task => !task.isFinished),
     
+    
     pinnedNotes(){
       return this.notes.filter(note => note.isPinned)      
     },
@@ -87,6 +88,14 @@ export const useTodoStore = defineStore('todo', {
       this.tasks.splice(index, 1);
     },
 
+    deleteNote(id) {
+      const index = this.notes.findIndex(note => note.id === id)
+
+      if (index !== -1) {
+        this.notes.splice(index, 1)
+      }
+    },
+
     pinnedNote(id){
       const pin_note = this.notes.find(note => note.id === id)
       if (pin_note) {
@@ -95,18 +104,19 @@ export const useTodoStore = defineStore('todo', {
     },
 
     // 新增note
-    addNote(item, content) {
-      if(!item) return;
+    addNote(item, content, tasks = []) {
+      const title = item.trim()
+      if (!title) return false
 
       this.notes.push({
-        id: this.notes[this.notes.length - 1].id + 1,
-        item: item,
-        content: content,
+        id: Date.now(),
+        item: title,
+        content,
         isFinished: false,
         isPinned: false,
+        tasks: tasks.map(task => ({ ...task }))
       })
-
       return true
-    },
+    }
   }
 })
