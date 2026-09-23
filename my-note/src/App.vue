@@ -1,10 +1,21 @@
 <script setup>
 import { RouterView, RouterLink } from 'vue-router';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 import NoteList from './components/NoteList.vue';
 import NoteGrid from './components/NoteGrid.vue';
 
+import { useTodoStore } from './stores/myNote_store.js';
 
+const todoStore = useTodoStore();
+const keyword = ref('');
+const router = useRouter();
+
+function goSearch(){
+  todoStore.searchNote(keyword.value);
+  router.push({ name: 'search' });
+}
 
 
 </script>
@@ -40,8 +51,8 @@ import NoteGrid from './components/NoteGrid.vue';
               <a class="nav-link disabled" aria-disabled="true">Disabled</a>
             </li>
           </ul>
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+          <form class="d-flex" role="search" @submit.prevent="goSearch">
+            <input v-model="keyword" class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
         </div>
@@ -57,7 +68,16 @@ import NoteGrid from './components/NoteGrid.vue';
           <NoteList />
         </div>
         <div class="col-9 pt-3">
-          <RouterView />
+          <!-- 內容 -->
+          <!-- <router-view>
+            <transition name="fade" mode="out-in">
+              <component :is="component"></component>
+            </transition>
+          </router-view> -->
+
+
+          <RouterView :key="$route.fullPath"></RouterView>
+
         </div>
       </div>
     </div>

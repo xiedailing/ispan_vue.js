@@ -1,7 +1,8 @@
 <template lang="">
     <div class="container">
         <div class="row g-3">
-            <div class="col-4" v-for="note in todoStore.notes">
+            <h3 class="mb-3 text-start">搜尋結果: {{todoStore.keyword}}</h3>
+            <div class="col-4" v-for="note in todoStore.searchResults">
                 <div class="card">
                     <div class="card-body">
                         <i v-if="note.isPinned" class="fa-solid fa-thumbtack me-2 pinned"></i>
@@ -38,5 +39,4 @@
         left: 5px;
         top: 10px
     }
-
 </style>

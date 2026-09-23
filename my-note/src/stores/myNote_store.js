@@ -33,6 +33,9 @@ export const useTodoStore = defineStore('todo', {
             }
         ],
     
+    keyword:'',
+    searchResults:[],
+    
     tasks: [
       {
         id: 1,
@@ -89,6 +92,7 @@ export const useTodoStore = defineStore('todo', {
     },
 
     deleteNote(id) {
+      // 找到對應id資料的索引值
       const index = this.notes.findIndex(note => note.id === id)
 
       if (index !== -1) {
@@ -115,8 +119,37 @@ export const useTodoStore = defineStore('todo', {
         isFinished: false,
         isPinned: false,
         tasks: tasks.map(task => ({ ...task }))
+        // tasks: tasks.map(function (task) {
+        // return { ...task };
+
       })
       return true
+    },
+
+    oneNote(id){
+      const note = this.notes.find(note => note.id === id)
+      return note
+    },
+
+    editNote(id, item, content, tasks){
+      const title = item.trim()
+      const note = this.notes.find(note => note.id === id)
+      if (!note || !title) return false
+
+      note.item = title
+      note.content = content
+      if (tasks !== undefined) {
+        note.tasks = tasks.map(task => ({ ...task }))
+      }
+      return true
+    },
+
+    searchNote(keyword){
+      this.keyword = keyword.trim();
+      this.searchResults = this.notes.filter(note => 
+        note.item.includes(this.keyword) ||
+        note.content.includes(this.keyword)
+      );
     }
   }
 })
