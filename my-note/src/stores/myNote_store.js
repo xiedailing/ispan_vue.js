@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia';
 
-export const useTodoStore = defineStore('todo', {
-  state: () => ({ 
-    notes: [
+const STORAGE_KEY = 'my-note:notes'
+
+const defaultNotes = () => ([
           {
             id: 1, 
             item: '去康是美', 
@@ -31,63 +31,50 @@ export const useTodoStore = defineStore('todo', {
               isFinished: false,
               isPinned: false
             }
-        ],
-    
-    tasks: [
-      {
-        id: 1,
-        item:'買衛生紙',
-        isFinished: false
-      },
-      {
-        id: 2,
-        item:'買洗髮精',
-        isFinished: false
-      }
-    ]
+        ])
+
+function loadNotes() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY)
+    if (saved) return JSON.parse(saved)
+  } catch (e) {
+    // 讀取失敗就使用預設資料
+  }
+  return defaultNotes()
+}
+
+export function saveNotes(notes) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(notes))
+  } catch (e) {
+    // 儲存空間不可用時忽略
+  }
+}
+
+export const useTodoStore = defineStore('todo', {
+  state: () => ({ 
+    keyword: '',
+    notes: loadNotes(),
   }),
 
   getters: {
-    completedTask(state){
-        console.log(state);
-        return state.tasks.filter(task => task.isFinished)
+    filteredNotes(){
+      const kw = this.keyword.trim().toLowerCase()
+      if (!kw) return this.notes
+      return this.notes.filter(note =>
+        note.item.toLowerCase().includes(kw) || (note.content || '').toLowerCase().includes(kw))
     },
 
-    unFinishedTasks: (state) => state.tasks.filter(task => !task.isFinished),
-    
-    
     pinnedNotes(){
-      return this.notes.filter(note => note.isPinned)      
+      return this.filteredNotes.filter(note => note.isPinned)      
     },
 
     allNotes(){
-      return this.notes.filter(note => !note.isPinned)
+      return this.filteredNotes.filter(note => !note.isPinned)
     }
   },
 
   actions: {
-    // 新增任務
-    addTask(item) {
-      if (!item || !item.trim()) return;
-      
-      // 💡 確認陣列名稱是 notes 還是 tasks（假設你的 state 叫做 notes）
-      this.tasks.push({
-        id: Date.now(),
-        item: item,
-        isFinished: false
-      });
-    },
-
-    // 切換完成狀態
-    toggleTask(index) {
-      this.tasks[index].isFinished = !this.tasks[index].isFinished;
-    },
-
-    // 刪除任務
-    deleteTask(index) {
-      this.tasks.splice(index, 1);
-    },
-
     deleteNote(id) {
       const index = this.notes.findIndex(note => note.id === id)
 
@@ -101,6 +88,19 @@ export const useTodoStore = defineStore('todo', {
       if (pin_note) {
       pin_note.isPinned = !pin_note.isPinned;
       }
+    },
+
+    // 更新note
+    updateNote(id, { item, content, isPinned, tasks }) {
+      const note = this.notes.find(note => note.id === id)
+      const title = item.trim()
+      if (!note || !title) return false
+
+      note.item = title
+      note.content = content
+      note.isPinned = isPinned
+      note.tasks = tasks.map(task => ({ ...task }))
+      return true
     },
 
     // 新增note

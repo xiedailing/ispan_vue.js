@@ -1,7 +1,7 @@
-<template lang="">
+<template>
     <div class="card p-4">
         <div class="mb-3">
-        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="請輸入標題..." v-model="title">
+        <input type="text" class="form-control" placeholder="請輸入標題..." v-model="title">
     </div>
     <div class="mb-3">
         <textarea 
@@ -60,9 +60,11 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useTodoStore } from '../stores/myNote_store'
 
 const todoStore = useTodoStore()
+const router = useRouter()
 const new_item = ref('')
 
 const tasks = ref([])
@@ -97,6 +99,7 @@ function saveNote(){
         content.value= ''
         new_item.value= ''
         tasks.value=[]
+        router.push('/')
     }
 
 }

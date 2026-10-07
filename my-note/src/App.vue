@@ -1,50 +1,21 @@
 <script setup>
 import { RouterView, RouterLink } from 'vue-router';
+import { useTodoStore } from './stores/myNote_store';
 
 import NoteList from './components/NoteList.vue';
-import NoteGrid from './components/NoteGrid.vue';
 
-
-
-
+const todoStore = useTodoStore();
 </script>
 
 <template>
   <header>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar topbar">
       <div class="container-fluid">
-        <router-link class="navbar-brand" to="/"><img src="/note_logo.png" alt="" class="logo">My Note</router-link>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Dropdown
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-            </li>
-          </ul>
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
-        </div>
+        <router-link class="navbar-brand brand" to="/"><img src="/note_logo.png" alt="" class="logo">My Note</router-link>
+        <form class="d-flex search" role="search" @submit.prevent>
+          <input class="form-control me-2" type="search" placeholder="搜尋筆記" aria-label="Search" v-model="todoStore.keyword"/>
+          <button class="btn btn-outline-light" type="submit">搜尋</button>
+        </form>
       </div>
     </nav>
   </header>
@@ -57,7 +28,7 @@ import NoteGrid from './components/NoteGrid.vue';
           <NoteList />
         </div>
         <div class="col-9 pt-3">
-          <RouterView />
+          <RouterView :key="$route.fullPath" />
         </div>
       </div>
     </div>
@@ -71,7 +42,47 @@ import NoteGrid from './components/NoteGrid.vue';
 </template>
 
 <style scoped>
+.topbar {
+  background: #8a9a3b;
+  padding: 6px 0;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  color: #fbf1dd;
+  font-family: 'DIN Alternate', 'Arial Narrow', 'Noto Sans TC', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.search {
+  flex-shrink: 0;
+}
+.search .btn {
+  white-space: nowrap;
+}
+.search .form-control {
+  background: #fbf1dd;
+  border-color: #fbf1dd;
+}
+.search .btn-outline-light {
+  color: #fbf1dd;
+  border-color: #fbf1dd;
+}
+.search .btn-outline-light:hover {
+  background: #fbf1dd;
+  color: #6b7a2a;
+}
+.brand:hover {
+  color: #fff;
+}
 .logo {
-  width: 40px;
+  width: 32px;
+  padding: 2px;
+  border: 2px solid #fbf1dd;
+  border-radius: 50%;
 }
 </style>
