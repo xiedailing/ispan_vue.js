@@ -6,13 +6,14 @@ import NoteList from './components/NoteList.vue';
 import ConfirmDialog from './components/ConfirmDialog.vue';
 
 const todoStore = useTodoStore();
+const logoUrl = import.meta.env.BASE_URL + 'note_logo.png';
 </script>
 
 <template>
   <header>
     <nav class="navbar topbar">
       <div class="container-fluid flex-wrap gap-2">
-        <router-link class="navbar-brand brand" to="/"><img src="/note_logo.png" alt="" class="logo">My Note</router-link>
+        <router-link class="navbar-brand brand" to="/"><img :src="logoUrl" alt="" class="logo">My Note</router-link>
         <form class="d-flex search" role="search" @submit.prevent>
           <input class="form-control me-2" type="search" placeholder="搜尋筆記" aria-label="Search" v-model="todoStore.keyword"/>
           <button class="btn btn-outline-light" type="submit">搜尋</button>
