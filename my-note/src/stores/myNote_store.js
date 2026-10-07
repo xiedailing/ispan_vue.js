@@ -60,17 +60,20 @@ export const useTodoStore = defineStore('todo', {
   getters: {
     filteredNotes(){
       const kw = this.keyword.trim().toLowerCase()
-      if (!kw) return this.notes
-      return this.notes.filter(note =>
-        note.item.toLowerCase().includes(kw) || (note.content || '').toLowerCase().includes(kw))
+      const matched = kw
+        ? this.notes.filter(note =>
+            note.item.toLowerCase().includes(kw) || (note.content || '').toLowerCase().includes(kw))
+        : this.notes
+      // 釘選的排前面，其餘維持原本順序
+      return [...matched].sort((a, b) => Number(b.isPinned) - Number(a.isPinned))
     },
 
     pinnedNotes(){
-      return this.filteredNotes.filter(note => note.isPinned)      
+      return this.notes.filter(note => note.isPinned)      
     },
 
     allNotes(){
-      return this.filteredNotes.filter(note => !note.isPinned)
+      return this.notes.filter(note => !note.isPinned)
     }
   },
 

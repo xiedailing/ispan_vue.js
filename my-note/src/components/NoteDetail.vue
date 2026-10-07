@@ -194,6 +194,7 @@
     }
 
     .btn-flat {
+        white-space: nowrap;
         padding: 8px 22px;
         border: 1.5px solid #1c1c1c;
         background: transparent;
@@ -235,5 +236,13 @@
     }
     .missing p {
         margin-bottom: 16px;
+    }
+    @media (max-width: 575.98px) {
+        .paper {
+            padding: 18px 16px;
+        }
+        .paper-actions {
+            flex-wrap: wrap;
+        }
     }
 </style>

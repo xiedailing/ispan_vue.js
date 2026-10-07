@@ -10,7 +10,7 @@ const todoStore = useTodoStore();
 <template>
   <header>
     <nav class="navbar topbar">
-      <div class="container-fluid">
+      <div class="container-fluid flex-wrap gap-2">
         <router-link class="navbar-brand brand" to="/"><img src="/note_logo.png" alt="" class="logo">My Note</router-link>
         <form class="d-flex search" role="search" @submit.prevent>
           <input class="form-control me-2" type="search" placeholder="搜尋筆記" aria-label="Search" v-model="todoStore.keyword"/>
@@ -23,11 +23,11 @@ const todoStore = useTodoStore();
   <main>
     <div class="container">
       <div class="row">
-        <div class="col-3 pt-3">
+        <div class="col-12 col-md-4 col-lg-3 pt-3">
           <!-- 選單 -->
           <NoteList />
         </div>
-        <div class="col-9 pt-3">
+        <div class="col-12 col-md-8 col-lg-9 pt-3">
           <RouterView :key="$route.fullPath" />
         </div>
       </div>
@@ -60,6 +60,11 @@ const todoStore = useTodoStore();
 }
 .search {
   flex-shrink: 0;
+}
+@media (max-width: 575.98px) {
+  .search {
+    flex-grow: 1;
+  }
 }
 .search .btn {
   white-space: nowrap;

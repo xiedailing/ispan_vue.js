@@ -4,7 +4,7 @@
             {{ todoStore.keyword.trim() ? '找不到符合的筆記' : '還沒有筆記，點左邊「新增筆記」開始吧' }}
         </p>
         <div class="row g-4">
-            <div class="col-4" v-for="note in todoStore.filteredNotes" :key="note.id">
+            <div class="col-12 col-sm-6 col-xl-4" v-for="note in todoStore.filteredNotes" :key="note.id">
                 <RouterLink :to="{ name: 'NoteDetail', params: { id: note.id } }" class="sticky">
                     <div class="sticky-head">
                         <span class="label">TITLE:</span>
@@ -35,7 +35,8 @@
 
 <style scoped>
     .sticky {
-        display: block;
+        display: flex;
+        flex-direction: column;
         text-decoration: none;
         position: relative;
         min-height: 200px;
@@ -80,7 +81,8 @@
         line-height: 1.6;
     }
     .progress-line {
-        margin-top: 12px;
+        margin-top: auto;
+        padding-top: 12px;
         font-size: 14px;
         opacity: 0.7;
     }

@@ -1,13 +1,17 @@
 <template>
     <RouterLink to="/AddNote" class="add-btn d-flex justify-content-center mb-3">新增筆記</RouterLink>
 
-    <section class="panel priority">
-        <h3>重要筆記</h3>
+    <section class="panel priority" :class="{ open: openPinned }">
+        <h3 role="button" tabindex="0" @click="openPinned = !openPinned" @keydown.enter="openPinned = !openPinned">
+            重要筆記
+            <span class="count">{{ todoStore.pinnedNotes.length }}</span>
+            <i class="fa-solid fa-chevron-down chev"></i>
+        </h3>
         <ul class="note-lines">
             <li v-if="!todoStore.pinnedNotes.length" class="empty">目前沒有重要筆記</li>
             <li v-for="note in todoStore.pinnedNotes" :key="note.id">
                 <span class="dot"></span>
-                <span class="name">{{ note.item }}</span>
+                <RouterLink class="name" :to="{ name: 'NoteDetail', params: { id: note.id } }">{{ note.item }}</RouterLink>
                 <span class="actions">
                     <i class="fa-solid fa-thumbtack pinned" @click="todoStore.pinnedNote(note.id)"></i>
                     <i class="fa-solid fa-trash-can" @click="removeNote(note)"></i>
@@ -16,13 +20,17 @@
         </ul>
     </section>
 
-    <section class="panel all">
-        <h3>所有筆記</h3>
+    <section class="panel all" :class="{ open: openAll }">
+        <h3 role="button" tabindex="0" @click="openAll = !openAll" @keydown.enter="openAll = !openAll">
+            所有筆記
+            <span class="count">{{ todoStore.allNotes.length }}</span>
+            <i class="fa-solid fa-chevron-down chev"></i>
+        </h3>
         <ul class="note-lines">
             <li v-if="!todoStore.allNotes.length" class="empty">目前沒有筆記</li>
             <li v-for="note in todoStore.allNotes" :key="note.id">
                 <span class="dot"></span>
-                <span class="name">{{ note.item }}</span>
+                <RouterLink class="name" :to="{ name: 'NoteDetail', params: { id: note.id } }">{{ note.item }}</RouterLink>
                 <span class="actions">
                     <i class="fa-solid fa-thumbtack" @click="todoStore.pinnedNote(note.id)"></i>
                     <i class="fa-solid fa-trash-can" @click="removeNote(note)"></i>
@@ -34,9 +42,14 @@
 
 
 <script setup>
+    import { ref } from 'vue';
     import { useTodoStore } from '../stores/myNote_store'
 
     const todoStore = useTodoStore();
+
+    // 手機版才會用到：清單區塊預設收合
+    const openPinned = ref(false);
+    const openAll = ref(false);
 
     function removeNote(note) {
         if (confirm(`確定要刪除「${note.item}」嗎？`)) {
@@ -82,6 +95,46 @@
         letter-spacing: 0.18em;
     }
 
+    .count,
+    .chev {
+        display: none;
+    }
+    @media (max-width: 767.98px) {
+        h3 {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+        .count {
+            display: inline;
+            margin-left: auto;
+            font-weight: 400;
+            letter-spacing: 0;
+            opacity: 0.7;
+        }
+        .chev {
+            display: inline;
+            margin-left: 10px;
+            font-size: 12px;
+            transition: transform 0.2s ease;
+        }
+        .panel.open .chev {
+            transform: rotate(180deg);
+        }
+        .panel:not(.open) h3 {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: 0;
+        }
+        .panel:not(.open) .note-lines {
+            display: none;
+        }
+        .panel:not(.open) {
+            padding-bottom: 14px;
+        }
+    }
+
     .note-lines {
         margin: 0;
         padding: 0;
@@ -105,11 +158,16 @@
         border-radius: 50%;
     }
     .name {
+        color: inherit;
+        text-decoration: none;
         flex: 1;
         min-width: 0;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+    }
+    .name:hover {
+        text-decoration: underline;
     }
     .actions {
         display: flex;
