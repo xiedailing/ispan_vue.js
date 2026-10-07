@@ -13,8 +13,8 @@
                 <span class="dot"></span>
                 <RouterLink class="name" :to="{ name: 'NoteDetail', params: { id: note.id } }">{{ note.item }}</RouterLink>
                 <span class="actions">
-                    <i class="fa-solid fa-thumbtack pinned" @click="todoStore.pinnedNote(note.id)"></i>
-                    <i class="fa-solid fa-trash-can" @click="removeNote(note)"></i>
+                    <button type="button" class="icon-btn pinned" :aria-label="'取消釘選 ' + note.item" @click="todoStore.pinnedNote(note.id)"><i class="fa-solid fa-thumbtack"></i></button>
+                    <button type="button" class="icon-btn trash" :aria-label="'刪除 ' + note.item" @click="removeNote(note)"><i class="fa-solid fa-trash-can"></i></button>
                 </span>
             </li>
         </ul>
@@ -32,8 +32,8 @@
                 <span class="dot"></span>
                 <RouterLink class="name" :to="{ name: 'NoteDetail', params: { id: note.id } }">{{ note.item }}</RouterLink>
                 <span class="actions">
-                    <i class="fa-solid fa-thumbtack" @click="todoStore.pinnedNote(note.id)"></i>
-                    <i class="fa-solid fa-trash-can" @click="removeNote(note)"></i>
+                    <button type="button" class="icon-btn" :aria-label="'釘選 ' + note.item" @click="todoStore.pinnedNote(note.id)"><i class="fa-solid fa-thumbtack"></i></button>
+                    <button type="button" class="icon-btn trash" :aria-label="'刪除 ' + note.item" @click="removeNote(note)"><i class="fa-solid fa-trash-can"></i></button>
                 </span>
             </li>
         </ul>
@@ -44,6 +44,7 @@
 <script setup>
     import { ref } from 'vue';
     import { useTodoStore } from '../stores/myNote_store'
+    import { askConfirm } from '../composables/useConfirm'
 
     const todoStore = useTodoStore();
 
@@ -51,8 +52,8 @@
     const openPinned = ref(false);
     const openAll = ref(false);
 
-    function removeNote(note) {
-        if (confirm(`確定要刪除「${note.item}」嗎？`)) {
+    async function removeNote(note) {
+        if (await askConfirm(`確定要刪除「${note.item}」嗎？`)) {
             todoStore.deleteNote(note.id);
         }
     }
@@ -173,16 +174,16 @@
         display: flex;
         gap: 10px;
     }
-    .actions i {
+    .actions .icon-btn {
         opacity: 0.5;
         cursor: pointer;
         transition: color 0.15s ease, opacity 0.15s ease;
     }
-    .actions i:hover {
+    .actions .icon-btn:hover {
         opacity: 1;
         color: #6b7a2a;
     }
-    .actions .fa-trash-can:hover {
+    .actions .trash:hover {
         color: #a3321f;
     }
     .actions .pinned {

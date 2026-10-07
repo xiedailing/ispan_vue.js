@@ -23,7 +23,7 @@
                 <li v-for="(task, i) in tasks" :key="task.id">
                     <input type="checkbox" class="form-check-input" v-model="task.isFinished" />
                     <span :class="{ done: task.isFinished }">{{ task.item }}</span>
-                    <i class="fa-solid fa-xmark" @click="tasks.splice(i, 1)"></i>
+                    <button type="button" class="icon-btn" :aria-label="'刪除待辦 ' + task.item" @click="tasks.splice(i, 1)"><i class="fa-solid fa-xmark"></i></button>
                 </li>
             </ul>
         </div>
@@ -163,12 +163,12 @@ function saveNote(){
         text-decoration: line-through;
         opacity: 0.5;
     }
-    .tasks i {
+    .tasks .icon-btn {
         cursor: pointer;
         opacity: 0.4;
         transition: opacity 0.15s ease, color 0.15s ease;
     }
-    .tasks i:hover {
+    .tasks .icon-btn:hover {
         opacity: 1;
         color: #a3321f;
     }

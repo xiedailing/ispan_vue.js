@@ -7,28 +7,24 @@ const defaultNotes = () => ([
             id: 1, 
             item: '去康是美', 
             content: '補生活用品',
-            isFinished: true,
             isPinned: true
           },
             {
               id: 2, 
               item: '繳費', 
               content: '最晚9/22前要繳',
-              isFinished: false,
               isPinned: true
             },
             {
               id: 3, 
               item: '訂餐廳', 
               content: '妹妹生日10/5',
-              isFinished: false,
               isPinned: false
             },
             {
               id: 4, 
               item: '拉伸', 
               content: '拉伸身體舒緩壓力',
-              isFinished: false,
               isPinned: false
             }
         ])
@@ -115,7 +111,6 @@ export const useTodoStore = defineStore('todo', {
         id: Date.now(),
         item: title,
         content,
-        isFinished: false,
         isPinned: false,
         tasks: tasks.map(task => ({ ...task }))
       })

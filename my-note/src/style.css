@@ -73,3 +73,18 @@ p {
   min-height: 100svh;
   box-sizing: border-box;
 }
+
+.icon-btn {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.icon-btn:focus-visible {
+  outline: 2px solid #6b7a2a;
+  outline-offset: 3px;
+}

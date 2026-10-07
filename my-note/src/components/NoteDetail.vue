@@ -8,11 +8,13 @@
         <div class="paper-head">
             <span class="label">TITLE:</span>
             <input class="title-input" type="text" v-model="draft.item" placeholder="請輸入標題..." />
-            <i
-                class="fa-solid fa-thumbtack tack"
+            <button
+                type="button"
+                class="icon-btn tack"
                 :class="{ pinned: draft.isPinned }"
+                :aria-label="draft.isPinned ? '取消釘選' : '釘選'"
                 @click="draft.isPinned = !draft.isPinned"
-            ></i>
+            ><i class="fa-solid fa-thumbtack"></i></button>
         </div>
 
         <div class="paper-section">
@@ -33,7 +35,7 @@
                 <li v-for="(task, i) in draft.tasks" :key="task.id">
                     <input type="checkbox" class="form-check-input" v-model="task.isFinished" />
                     <span :class="{ done: task.isFinished }">{{ task.item }}</span>
-                    <i class="fa-solid fa-xmark" @click="draft.tasks.splice(i, 1)"></i>
+                    <button type="button" class="icon-btn" :aria-label="'刪除待辦 ' + task.item" @click="draft.tasks.splice(i, 1)"><i class="fa-solid fa-xmark"></i></button>
                 </li>
             </ul>
         </div>
@@ -51,6 +53,7 @@
     import { ref, computed } from 'vue';
     import { useRoute, useRouter } from 'vue-router';
     import { useTodoStore } from '../stores/myNote_store'
+    import { askConfirm } from '../composables/useConfirm'
 
     const todoStore = useTodoStore();
     const route = useRoute();
@@ -83,8 +86,8 @@
         }
     }
 
-    function remove() {
-        if (!confirm(`確定要刪除「${draft.value.item}」嗎？`)) return;
+    async function remove() {
+        if (!(await askConfirm(`確定要刪除「${draft.value.item}」嗎？`))) return;
         todoStore.deleteNote(id);
         router.push('/');
     }
@@ -169,13 +172,13 @@
         text-decoration: line-through;
         opacity: 0.5;
     }
-    .tasks i,
+    .tasks .icon-btn,
     .tack {
         cursor: pointer;
         opacity: 0.4;
         transition: opacity 0.15s ease, color 0.15s ease;
     }
-    .tasks i:hover {
+    .tasks .icon-btn:hover {
         opacity: 1;
         color: #a3321f;
     }

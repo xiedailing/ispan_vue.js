@@ -5,11 +5,17 @@
         </p>
         <div class="row g-4">
             <div class="col-12 col-sm-6 col-xl-4" v-for="note in todoStore.filteredNotes" :key="note.id">
-                <RouterLink :to="{ name: 'NoteDetail', params: { id: note.id } }" class="sticky">
+                <div class="sticky">
                     <div class="sticky-head">
                         <span class="label">TITLE:</span>
-                        <span class="title">{{ note.item }}</span>
-                        <i class="fa-solid fa-thumbtack tack" :class="{ pinned: note.isPinned }"></i>
+                        <RouterLink class="title stretched" :to="{ name: 'NoteDetail', params: { id: note.id } }">{{ note.item }}</RouterLink>
+                        <button
+                            type="button"
+                            class="icon-btn tack"
+                            :class="{ pinned: note.isPinned }"
+                            :aria-label="(note.isPinned ? '取消釘選 ' : '釘選 ') + note.item"
+                            @click="todoStore.pinnedNote(note.id)"
+                        ><i class="fa-solid fa-thumbtack"></i></button>
                     </div>
                     <div class="sticky-body">
                         <span class="label">NOTE:</span>
@@ -19,7 +25,7 @@
                         <i class="fa-regular fa-square-check"></i>
                         {{ note.tasks.filter(t => t.isFinished).length }}/{{ note.tasks.length }}
                     </div>
-                </RouterLink>
+                </div>
             </div>
         </div>
     </div>
@@ -37,7 +43,6 @@
     .sticky {
         display: flex;
         flex-direction: column;
-        text-decoration: none;
         position: relative;
         min-height: 200px;
         padding: 18px 16px;
@@ -67,6 +72,8 @@
         margin-bottom: 10px;
     }
     .title {
+        color: inherit;
+        text-decoration: none;
         font-size: 18px;
         font-weight: 600;
         min-width: 0;
@@ -80,6 +87,18 @@
         letter-spacing: 0.02em;
         line-height: 1.6;
     }
+    .stretched::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+    }
+    .title:focus-visible {
+        outline: none;
+    }
+    .sticky:has(.title:focus-visible) {
+        outline: 2px solid #6b7a2a;
+        outline-offset: 3px;
+    }
     .progress-line {
         margin-top: auto;
         padding-top: 12px;
@@ -92,10 +111,15 @@
         opacity: 0.6;
     }
     .tack {
+        position: relative;
+        z-index: 1;
         flex-shrink: 0;
         margin-left: auto;
         font-size: 16px;
         opacity: 0.25;
+    }
+    .tack:hover {
+        opacity: 0.8;
     }
     .tack.pinned {
         color: #d62828;

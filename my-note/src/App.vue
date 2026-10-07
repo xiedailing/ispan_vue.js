@@ -3,6 +3,7 @@ import { RouterView, RouterLink } from 'vue-router';
 import { useTodoStore } from './stores/myNote_store';
 
 import NoteList from './components/NoteList.vue';
+import ConfirmDialog from './components/ConfirmDialog.vue';
 
 const todoStore = useTodoStore();
 </script>
@@ -34,11 +35,11 @@ const todoStore = useTodoStore();
     </div>
   </main>
 
-  <hr>
-
-  <footer>
+  <footer class="site-footer">
     <p>&copy; 2026 Ispan Vue.js</p>
   </footer>
+
+  <ConfirmDialog />
 </template>
 
 <style scoped>
@@ -83,6 +84,16 @@ const todoStore = useTodoStore();
 }
 .brand:hover {
   color: #fff;
+}
+.site-footer {
+  margin-top: 40px;
+  padding: 12px 0;
+  background: #8a9a3b;
+  color: #fbf1dd;
+  font-family: 'DIN Alternate', 'Arial Narrow', 'Noto Sans TC', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
 .logo {
   width: 32px;
